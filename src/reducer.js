@@ -4,6 +4,7 @@ const HIDE_NOTIFICATION = 'HIDE_NOTIFICATION';
 const initialState = {
   shouldShowNotification: false,
   text: null,
+  userWantsToSeeNotifications: false,
 };
 
 export function showNotification(text) {
@@ -18,6 +19,17 @@ export function hideNotification() {
     type: HIDE_NOTIFICATION
   };
 };
+
+export function showAndHideNotification(text) {
+  return (dispatch, getState) => {
+    if (getState().userWantsToSeeNotifications) {
+      dispatch(showNotification(text));
+      setTimeout(() => {
+        dispatch(hideNotification());
+      }, 500)   
+    }
+  }
+}
 
 export default (state = initialState, action) => {
   switch (action.type) {
